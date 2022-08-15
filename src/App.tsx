@@ -8,7 +8,7 @@ export type AnswerObject = {
   question: string;
   answer: string;
   correct: boolean;
-  correctAnswer: string;
+  correctAnswers: string;
 
 }
 
@@ -19,7 +19,7 @@ function App() {
   const [loading, setLoading ] = useState(false);
   const [questions, setQuestions] = useState<QuestionState[]>([]);
   const [number, setNumber] = useState(0);
-  const [userAnswer, setUserAnswer] = useState<AnswerObject[]>([]);
+  const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
 
@@ -35,7 +35,7 @@ function App() {
 
     setQuestions(newQuestions);
     setScore(0);
-    setUserAnswer([]);
+    setUserAnswers([]);
     setNumber(0);
     setLoading(false);
   };
@@ -52,9 +52,9 @@ function App() {
         question: questions[number].question,
         answer,
         correct,
-        correctAnswer: questions[number].correct_answer,
+        correctAnswers: questions[number].correct_answer,
       };
-      setUserAnswer((prev) => [...prev, answerObject]);
+      setUserAnswers((prev) => [...prev,answerObject]);
     }
   }
 
@@ -72,7 +72,7 @@ function App() {
   return (
     <div className="App">
       <h1>Quiz</h1>
-      {gameOver || userAnswer.length === TOTAL_QUESTIONS ? (
+      {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
         <button className="start" onClick={startTrivia}>Start</button>
       ) :null}
 
@@ -87,16 +87,16 @@ function App() {
           totalQuestion = {TOTAL_QUESTIONS}
           question = {questions[number].question}
           answers = {questions[number].answers}
-          userAnswer = {userAnswer ? userAnswer[number] : undefined}
+          userAnswers = {userAnswers ? userAnswers[number] : undefined}
           callBack = {checkAnswer}
       /> 
       )}
 
       {!gameOver 
       && !loading 
-      && userAnswer.length === number + 1 
+      && userAnswers.length === number + 1 
       && number !== TOTAL_QUESTIONS - 1 ? (
-        <button className="next" onClick={nextQuestion}>Next Question</button>
+        <button type="button" className="next" onClick={nextQuestion}>Next Question</button>
       ) : null}
 
     </div>
